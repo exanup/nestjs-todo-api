@@ -16,14 +16,8 @@ export class TasksService {
     return this.tasksRepository.find();
   }
 
-  async findOne(taskId) {
-    const foundTask = await this.tasksRepository.findOne(taskId);
-
-    if (!foundTask) {
-      throw new NotFoundException();
-    }
-
-    return foundTask;
+  findOne(taskId) {
+    return this.findOneOrThrow(taskId);
   }
 
   async create(task) {
@@ -36,11 +30,7 @@ export class TasksService {
   }
 
   async update(taskId, task) {
-    const foundTask = await this.tasksRepository.findOne(taskId);
-
-    if (!foundTask) {
-      throw new NotFoundException();
-    }
+    const foundTask = await this.findOneOrThrow(taskId);
 
     const newTask = this.tasksRepository.merge(foundTask, task);
 
@@ -48,12 +38,18 @@ export class TasksService {
   }
 
   async remove(taskId) {
+    const foundTask = await this.findOneOrThrow(taskId);
+
+    return this.tasksRepository.remove(foundTask);
+  }
+
+  private async findOneOrThrow(taskId: any) {
     const foundTask = await this.tasksRepository.findOne(taskId);
 
     if (!foundTask) {
       throw new NotFoundException();
     }
 
-    return this.tasksRepository.remove(foundTask);
+    return foundTask;
   }
 }
