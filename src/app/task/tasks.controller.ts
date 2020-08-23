@@ -8,8 +8,15 @@ import {
   Patch,
   Put,
   Delete,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
+
 import { TasksService } from './tasks.service';
+import { CreateTaskDto } from './../../dtos/tasks/createTask.dto';
+import { UpdateTaskDto } from './../../dtos/tasks/updateTask.dto';
+import { ReplaceTaskDto } from './../../dtos/tasks/replaceTask.dto';
+import { FindOneTaskParams } from '../../dtos/tasks/findOneTaskParams';
 
 @Controller('tasks')
 export class TasksController {
@@ -21,28 +28,34 @@ export class TasksController {
   }
 
   @Get(':id')
-  getTask(@Param('id') id) {
-    return this.tasksService.findOne(id);
+  getTask(@Param() params: FindOneTaskParams) {
+    return this.tasksService.findOne(params.id);
   }
 
   @Post()
-  postTask(@Body() requestBody) {
-    return this.tasksService.create(requestBody);
+  postTask(@Body() createTaskDto: CreateTaskDto) {
+    return this.tasksService.create(createTaskDto);
   }
 
   @Patch(':id')
-  patchTask(@Param('id') id, @Body() requestBody) {
-    return this.tasksService.update(id, requestBody);
+  patchTask(
+    @Param() params: FindOneTaskParams,
+    @Body() patchTaskDto: UpdateTaskDto,
+  ) {
+    return this.tasksService.update(params.id, patchTaskDto);
   }
 
   @Put(':id')
-  putTask(@Param('id') id, @Body() requestBody) {
-    return this.tasksService.update(id, requestBody);
+  putTask(
+    @Param() params: FindOneTaskParams,
+    @Body() replaceTaskDto: ReplaceTaskDto,
+  ) {
+    return this.tasksService.update(params.id, replaceTaskDto);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  deleteTask(@Param('id') id) {
-    return this.tasksService.remove(id);
+  deleteTask(@Param() params: FindOneTaskParams) {
+    return this.tasksService.remove(params.id);
   }
 }

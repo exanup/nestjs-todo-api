@@ -1,9 +1,12 @@
+import { UpdateTaskDto } from './../../dtos/tasks/updateTask.dto';
 import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Task } from '../../entities/tasks.entity';
+import { CreateTaskDto } from './../../dtos/tasks/createTask.dto';
+import { FindOneTaskParams } from '../../dtos/tasks/findOneTaskParams';
 
 @Injectable()
 export class TasksService {
@@ -16,11 +19,11 @@ export class TasksService {
     return this.tasksRepository.find();
   }
 
-  findOne(taskId) {
+  findOne(taskId: string) {
     return this.findOneOrThrow(taskId);
   }
 
-  async create(task) {
+  async create(task: CreateTaskDto) {
     const id = uuidv4();
     const isDone = false;
 
@@ -29,7 +32,7 @@ export class TasksService {
     return this.tasksRepository.save(newTask);
   }
 
-  async update(taskId, task) {
+  async update(taskId: string, task: UpdateTaskDto) {
     const foundTask = await this.findOneOrThrow(taskId);
 
     const newTask = this.tasksRepository.merge(foundTask, task);
@@ -37,13 +40,13 @@ export class TasksService {
     return this.tasksRepository.save(newTask);
   }
 
-  async remove(taskId) {
+  async remove(taskId: string) {
     const foundTask = await this.findOneOrThrow(taskId);
 
     return this.tasksRepository.remove(foundTask);
   }
 
-  private async findOneOrThrow(taskId: any) {
+  private async findOneOrThrow(taskId: string) {
     const foundTask = await this.tasksRepository.findOne(taskId);
 
     if (!foundTask) {
