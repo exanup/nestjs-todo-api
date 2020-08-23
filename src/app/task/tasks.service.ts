@@ -1,14 +1,23 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import * as TaskRepo from '../../repo/tasks.repo';
+import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
+
+import { Task } from '../../entities/tasks.entity';
 
 @Injectable()
 export class TasksService {
+  constructor(
+    @InjectRepository(Task)
+    private tasksRepository: Repository<Task>,
+  ) {}
+
   find() {
-    return TaskRepo.find();
+    return this.tasksRepository.find();
   }
 
-  findOne(taskId) {
-    const foundTask = TaskRepo.findOne(taskId);
+  async findOne(taskId) {
+    const foundTask = await this.tasksRepository.findOne(taskId);
 
     if (!foundTask) {
       throw new NotFoundException();
@@ -17,27 +26,34 @@ export class TasksService {
     return foundTask;
   }
 
-  create(task) {
-    return TaskRepo.create(task);
+  async create(task) {
+    const id = uuidv4();
+    const isDone = false;
+
+    const newTask = this.tasksRepository.create({ ...task, id, isDone });
+
+    return this.tasksRepository.save(newTask);
   }
 
-  update(taskId, task) {
-    const foundTask = TaskRepo.findOne(taskId);
+  async update(taskId, task) {
+    const foundTask = await this.tasksRepository.findOne(taskId);
 
     if (!foundTask) {
       throw new NotFoundException();
     }
 
-    return TaskRepo.update(taskId, task);
+    const newTask = this.tasksRepository.merge(foundTask, task);
+
+    return this.tasksRepository.save(newTask);
   }
 
-  remove(taskId) {
-    const foundTask = TaskRepo.findOne(taskId);
+  async remove(taskId) {
+    const foundTask = await this.tasksRepository.findOne(taskId);
 
     if (!foundTask) {
       throw new NotFoundException();
     }
 
-    return TaskRepo.remove(taskId);
+    return this.tasksRepository.remove(foundTask);
   }
 }

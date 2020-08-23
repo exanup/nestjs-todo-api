@@ -3,6 +3,7 @@
     "fastify",
     "nestjs",
     "prebuild",
+    "typeorm",
     "uuidv"
   ]
 }
