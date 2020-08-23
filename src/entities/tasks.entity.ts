@@ -9,17 +9,17 @@ import {
 @Entity()
 export class Task {
   @PrimaryColumn()
-  id: string;
+  id!: string;
 
   @Column()
-  description: string;
+  description!: string;
 
   @Column()
-  isDone: boolean;
+  isDone!: boolean;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 }

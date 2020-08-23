@@ -8,8 +8,6 @@ import {
   Patch,
   Put,
   Delete,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 
 import { TasksService } from 'src/app/task/tasks.service';

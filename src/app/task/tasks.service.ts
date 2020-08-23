@@ -1,11 +1,11 @@
-import { UpdateTaskDto } from './../../dtos/tasks/updateTask.dto';
-import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Task } from 'src/entities/tasks.entity';
 import { CreateTaskDto } from 'src/dtos/tasks/createTask.dto';
+import { UpdateTaskDto } from 'src/dtos/tasks/updateTask.dto';
 
 @Injectable()
 export class TasksService {
