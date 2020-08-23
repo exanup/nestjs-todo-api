@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TasksModule } from './task/tasks.module';
-import { Task } from './../entities/tasks.entity';
+import { AppController } from 'src/app/app.controller';
+import { AppService } from 'src/app/app.service';
+import { TasksModule } from 'src/app/task/tasks.module';
+import { Task } from 'src/entities/tasks.entity';
 
 const ormConfig: TypeOrmModuleOptions = {
   type: 'sqlite',

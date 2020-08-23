@@ -12,11 +12,11 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 
-import { TasksService } from './tasks.service';
-import { CreateTaskDto } from './../../dtos/tasks/createTask.dto';
-import { UpdateTaskDto } from './../../dtos/tasks/updateTask.dto';
-import { ReplaceTaskDto } from './../../dtos/tasks/replaceTask.dto';
-import { FindOneTaskParams } from '../../dtos/tasks/findOneTaskParams';
+import { TasksService } from 'src/app/task/tasks.service';
+import { CreateTaskDto } from 'src/dtos/tasks/createTask.dto';
+import { UpdateTaskDto } from 'src/dtos/tasks/updateTask.dto';
+import { ReplaceTaskDto } from 'src/dtos/tasks/replaceTask.dto';
+import { FindOneTaskParams } from 'src/dtos/tasks/findOneTaskParams';
 
 @Controller('tasks')
 export class TasksController {

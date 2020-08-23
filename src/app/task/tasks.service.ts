@@ -4,9 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Task } from '../../entities/tasks.entity';
-import { CreateTaskDto } from './../../dtos/tasks/createTask.dto';
-import { FindOneTaskParams } from '../../dtos/tasks/findOneTaskParams';
+import { Task } from 'src/entities/tasks.entity';
+import { CreateTaskDto } from 'src/dtos/tasks/createTask.dto';
 
 @Injectable()
 export class TasksService {
